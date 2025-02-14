@@ -3,11 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
   Query,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -15,9 +15,9 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 
 @Controller('users')
-@UseGuards(AuthenticationGuard)
+//@UseGuards(AuthenticationGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -34,7 +34,7 @@ export class UsersController {
     return this.usersService.findOne({ _id: id });
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }

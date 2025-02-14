@@ -19,11 +19,7 @@ export interface IMessageModel extends Document {
   chat_id: mongoose.Types.ObjectId; // Reference to the chat in the Chats collection
   status: string; // Status of the message: "delivered", "sent", "read"
   direction: string; // Message direction: "inbound" or "outbound"
-  channel: string; // Channel: "whatsapp" or "chat-interno"
-  outbound_sent_at?: Date; // Optional timestamp of when the message was sent
   outbound_delivered_at?: Date; // Optional timestamp of when the message was delivered
-  outbound_read_at?: Date; // Optional timestamp of when the message was read
-  count_unread_messages?: number; // Optional count of unread messages
   inbound_message_date?: Date; // Optional timestamp of the inbound message
   content: IMessageContent; // Content of the message
   inbound_sender: {
@@ -42,11 +38,7 @@ export const MessageSchema = new Schema<IMessageModel>({
   chat_id: { type: Schema.Types.ObjectId, ref: 'chats' }, // Chat ID reference, required
   status: { type: String, required: false }, // Status of the message, optional
   direction: { type: String, required: true }, // Direction of the message, required
-  channel: { type: String, required: true }, // Channel of the message, required
-  outbound_sent_at: { type: Date, required: false },
   outbound_delivered_at: { type: Date, required: false },
-  outbound_read_at: { type: Date, required: false },
-  count_unread_messages: { type: Number, required: false },
   inbound_message_date: { type: Date, required: false },
   content: {
     type: {

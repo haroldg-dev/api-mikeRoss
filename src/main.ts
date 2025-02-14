@@ -9,7 +9,7 @@ async function bootstrap() {
     origin: true,
     methods: 'GET, POST, PUT, DELETE',
   });
-  app.setGlobalPrefix('mike-ross');
+  //app.setGlobalPrefix('mike-ross');
   await app.listen(port);
   console.log(`Server is running on port ${port}`);
 }

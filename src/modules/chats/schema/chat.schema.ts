@@ -7,24 +7,13 @@ export interface IChatModel extends Document {
     name: string;
     email: string;
   };
-  total_messages: number;
-  last_message: {
-    message_id: mongoose.Types.ObjectId;
-    content_type: string;
-    content_preview: string;
-    direction: string;
-    outbound_sent_at?: Date;
-    outbound_delivered_at?: Date;
-    outbound_read_at?: Date;
-    count_unread_messages?: number;
-    inbound_message_date?: Date;
-  };
-  active_bot: boolean;
-  assigned_bot: {
+  last_thread: {
     id: string;
-    name: string;
     status: string;
-  };
+  }
+  total_messages: number;
+  title: string;
+  active_bot: boolean;
   created_at: Date;
   updated_at: Date;
 }
@@ -35,23 +24,13 @@ export const ChatSchema = new Schema<IChatModel>({
     name: { type: String, required: false },
     email: { type: String, required: true },
   },
-  total_messages: { type: Number, required: true, default: 0 },
-  last_message: {
-    message_id: { type: Schema.Types.ObjectId, required: false },
-    content_type: { type: String, required: false },
-    content_preview: { type: String, required: false },
-    direction: { type: String, required: false },
-    outbound_sent_at: { type: Date, required: false },
-    outbound_delivered_at: { type: Date, required: false },
-    outbound_read_at: { type: Date, required: false },
-    count_unread_messages: { type: Number, required: false },
-    inbound_message_date: { type: Date, required: false },
-  },
-  active_bot: { type: Boolean, required: true, default: false },
-  assigned_bot: {
+  last_thread: {
     id: { type: String, required: false },
-    name: { type: String, required: false },
+    status: { type: String, required: false },
   },
+  total_messages: { type: Number, required: true, default: 0 },
+  title: { type: String, required: true },
+  active_bot: { type: Boolean, required: true, default: false },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });
