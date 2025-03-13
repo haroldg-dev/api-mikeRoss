@@ -1,44 +1,55 @@
-import { IsString, IsOptional, IsNotEmpty, IsPhoneNumber, IsDate, IsArray, ValidateNested, IsObject } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNotEmpty,
+  IsDate,
+  IsArray,
+  IsObject,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateUserDto {
-    @IsString()
-    @IsNotEmpty()
-    email?: string;
+  @IsString()
+  @IsNotEmpty()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    first_name?: string;
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
-    @IsString()
-    @IsNotEmpty()
-    last_name?: string;
+  @IsString()
+  @IsNotEmpty()
+  first_name?: string;
 
-    @IsString()
-    @IsNotEmpty()
-    phone: string;
+  @IsString()
+  @IsNotEmpty()
+  last_name?: string;
 
-    @IsObject()
-    @IsOptional()
-    personal_id?: any;
+  @IsString()
+  @IsNotEmpty()
+  phone: string;
 
-    @IsDate()
-    @IsOptional()
-    created_at?: Date;
+  @IsObject()
+  @IsOptional()
+  personal_id?: any;
 
-    @IsDate()
-    @IsOptional()
-    updated_at?: Date;
+  @IsDate()
+  @IsOptional()
+  created_at?: Date;
 
-    @IsString()
-    @IsNotEmpty()
-    status: string;
+  @IsDate()
+  @IsOptional()
+  updated_at?: Date;
 
-    @IsString()
-    @IsOptional()
-    notes?: string;
+  @IsString()
+  @IsNotEmpty()
+  status: string;
 
-    @IsArray()
-    @IsOptional()
-    chat?: any;
+  @IsString()
+  @IsOptional()
+  notes?: string;
+
+  @IsArray()
+  @IsOptional()
+  chat?: any;
 }

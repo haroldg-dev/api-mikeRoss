@@ -31,4 +31,10 @@ export const errorInfo = {
     status: 500,
     message: 'Error interno del servidor',
   },
-}
+  // NOT EXIST
+  userNotExist: {
+    code: 'USER_NOT_EXIST',
+    status: 404,
+    message: 'Usuario no existe',
+  },
+};
