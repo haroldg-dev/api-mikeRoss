@@ -93,3 +93,136 @@ The application is structured into the following modules:
    Integrates GPT-based services for AI-powered features.
 4. Authentication Module
    Provides guards and utilities for user authentication and authorization.
+
+---
+
+## Some Endpoints
+
+### Messages
+
+#### 1. **Get Messages by Cursor**
+
+- **URL**: `/messages/cursor/:limit`
+- **Method**: `GET`
+- **Query Parameters**:
+  - `cursor` (optional): Cursor for pagination.
+  - `chatId` (optional): ID of the chat to filter messages.
+- **Response**:
+  ```json
+  [
+    {
+      "content": {
+        "type": "text",
+        "text": "Hello, world!"
+      },
+      "_id": "67d37ce6afaf634fa2d9a93c",
+      "user_id": "67d36fc2525f6cd4fcb21a39",
+      "chat_id": "67d3761624b5cd1d25af4521",
+      "status": "delivered",
+      "direction": "inbound",
+      "created_at": "2025-03-14T00:48:38.231Z"
+    }
+  ]
+  ```
+
+#### 2. **Create a Message**
+
+- **URL**: `/messages`
+- **Method**: `POST`
+- **Body**:
+  ```json
+  {
+    "user_id": "67d36fc2525f6cd4fcb21a39",
+    "chat_id": "67d3761624b5cd1d25af4521",
+    "status": "delivered",
+    "direction": "outbound",
+    "content": {
+      "type": "text",
+      "text": "Hello, world!"
+    }
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "content": {
+      "type": "text",
+      "text": "Hello, world!"
+    },
+    "_id": "67d37ce6afaf634fa2d9a93c",
+    "user_id": "67d36fc2525f6cd4fcb21a39",
+    "chat_id": "67d3761624b5cd1d25af4521",
+    "status": "delivered",
+    "direction": "outbound",
+    "created_at": "2025-03-14T00:48:38.231Z"
+  }
+  ```
+
+---
+
+### Chats
+
+#### 1. **Get All Chats**
+
+- **URL**: `/chats`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  [
+    {
+      "_id": "67d3761624b5cd1d25af4521",
+      "title": "General Chat",
+      "total_messages": 42,
+      "user": {
+        "id": "67d36fc2525f6cd4fcb21a39",
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      },
+      "active_bot": true,
+      "created_at": "2025-03-13T00:00:00.000Z",
+      "updated_at": "2025-03-14T00:00:00.000Z"
+    }
+  ]
+  ```
+
+---
+
+## Usage
+
+### Authentication
+
+- Use the `useAuth` hook to check if a user is authenticated.
+- Example:
+  ```typescript
+  const isAuthenticated = useAuth();
+  if (!isAuthenticated) {
+    console.log('User is not authenticated');
+  }
+  ```
+
+### Fetching Messages
+
+- Use the `useMessages` hook to fetch messages for a specific chat.
+- Example:
+  ```typescript
+  const { messages, loading, error } = useMessages(chatId);
+  ```
+
+### Fetching Chats
+
+- Use the `useChats` hook to fetch all available chats.
+- Example:
+  ```typescript
+  const { chats, loading, error } = useChats();
+  ```
+
+---
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes and push them to your fork.
+4. Submit a pull request.
+
+---
