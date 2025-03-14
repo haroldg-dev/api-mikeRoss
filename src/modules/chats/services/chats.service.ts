@@ -3,21 +3,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { IChatModel } from '../schema/chat.schema';
 import { BaseService } from 'src/common/services/base.service';
-import { IMessageModel } from '../../messages/schema/message.schema';
 
 @Injectable()
 export class ChatsService extends BaseService<IChatModel> {
   constructor(
     @InjectModel('chats') private readonly chatModel: Model<IChatModel>,
-    @InjectModel('messages')
-    private readonly messageModel: Model<IMessageModel>,
   ) {
     super(chatModel);
   }
   async getById(chatId: string): Promise<IChatModel | null> {
     return this.chatModel.findById(chatId).exec();
   }
-  
+
   async getByNumber(number: number): Promise<IChatModel | null> {
     return this.chatModel.findOne({ 'user.phone': number }).exec();
   }
@@ -94,21 +91,21 @@ export class ChatsService extends BaseService<IChatModel> {
     return this.chatModel.findOne({ 'user.phone': phone }).exec();
   }
 
-  async updateTotalMessages(chatId: string): Promise<IChatModel | null> {
-    try {
-      const totalMessages = await this.messageModel.countDocuments({
-        chat_id: chatId,
-      });
-      return this.chatModel
-        .findByIdAndUpdate(
-          chatId,
-          { $set: { total_messages: totalMessages } },
-          { new: true },
-        )
-        .exec();
-    } catch (error) {
-      console.error('Error updating total messages:', error);
-      throw error;
-    }
-  }
+  // async updateTotalMessages(chatId: string): Promise<IChatModel | null> {
+  //   try {
+  //     const totalMessages = await this.messageModel.countDocuments({
+  //       chat_id: chatId,
+  //     });
+  //     return this.chatModel
+  //       .findByIdAndUpdate(
+  //         chatId,
+  //         { $set: { total_messages: totalMessages } },
+  //         { new: true },
+  //       )
+  //       .exec();
+  //   } catch (error) {
+  //     console.error('Error updating total messages:', error);
+  //     throw error;
+  //   }
+  // }
 }

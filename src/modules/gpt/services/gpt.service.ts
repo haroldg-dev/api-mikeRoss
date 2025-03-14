@@ -31,7 +31,6 @@ export class GptService {
   }
 
   async generateThreads(metadata: any) {
-    // TODO -> Analizar el significado de metadata al crear un thread
     const thread = await this.openAi.beta.threads.create({
       metadata: metadata,
     });
@@ -39,12 +38,8 @@ export class GptService {
     return thread;
   }
 
-  async generateNewResponse(
-    user: IUserModel,
-    chat: IChatModel,
-    content: string,
-    botId: string,
-  ) {
+  async generateNewResponse(chat: IChatModel, content: string) {
+    console.log('chat: ', chat);
     const threadMessages = await this.openAi.beta.threads.messages.create(
       chat.last_thread.id,
       {
@@ -56,14 +51,13 @@ export class GptService {
     const run = await this.openAi.beta.threads.runs.create(
       chat.last_thread.id,
       {
-        assistant_id: this.configService.get<string>(botId) || '',
+        assistant_id: this.configService.get<string>('GPT_ID_MASTER') || '',
       },
     );
     let runStatus = await this.openAi.beta.threads.runs.retrieve(
       chat.last_thread.id,
       run.id,
     );
-    // TODO -> Implementar un sistema de colas para consultar el status en gpt
     while (runStatus.status !== 'completed') {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       runStatus = await this.openAi.beta.threads.runs.retrieve(
@@ -72,20 +66,23 @@ export class GptService {
       );
       if (runStatus.status === 'requires_action') {
         if (!runStatus.required_action) {
-          console.log(`AURORA - ${user.phone} - RUN STATUS 'requires_action' - required_action is null`);
+          console.log(
+            `MIKEROSS - RUN STATUS 'requires_action' - required_action is null`,
+          );
           break;
         }
-        const toolCalls = runStatus.required_action.submit_tool_outputs.tool_calls;
+        const toolCalls =
+          runStatus.required_action.submit_tool_outputs.tool_calls;
         const toolOutputs: { tool_call_id: string; output: any }[] = [];
         for (const toolCall of toolCalls) {
           const functionName: NameFuntions = toolCall.function
             .name as NameFuntions;
           const args = JSON.parse(toolCall.function.arguments);
           console.log(
-            `AURORA - ${user.phone} - execute[${functionName}] - ${JSON.stringify(args, null, 2)}`,
+            `MIKEROSS - execute[${functionName}] - ${JSON.stringify(args, null, 2)}`,
           );
-          const gptFunctions = this.gptFunctionsMap[botId];
-          const output = await gptFunctions[functionName](args, chat, user);
+          const gptFunctions = this.gptFunctionsMap['GPT_ID_MASTER'];
+          const output = await gptFunctions[functionName](args, chat);
           toolOutputs.push({
             tool_call_id: toolCall.id,
             output: output,
@@ -102,7 +99,7 @@ export class GptService {
       }
       if (['failed', 'cancelled', 'expired'].includes(runStatus.status)) {
         console.log(
-          `AURORA - ${user.phone} - RUN STATUS '${runStatus.status}' - Unable to complete the request. Details: ${JSON.stringify(runStatus, null, 2)}`,
+          `MIKEROSS - RUN STATUS '${runStatus.status}' - Unable to complete the request. Details: ${JSON.stringify(runStatus, null, 2)}`,
         );
         break;
       }

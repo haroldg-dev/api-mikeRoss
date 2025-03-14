@@ -22,6 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
     ChatsModule,
     UsersModule,
     MessagesModule,
+    GptModule,
     AuthModule,
   ],
 })

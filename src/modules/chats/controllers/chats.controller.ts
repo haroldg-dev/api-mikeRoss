@@ -15,7 +15,7 @@ import { UpdateChatDto } from '../dto/update-chat.dto';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 
 @Controller('chats')
-@UseGuards(AuthenticationGuard)
+// @UseGuards(AuthenticationGuard)
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 

@@ -15,7 +15,7 @@ import { UpdateMessageDto } from '../dto/update.dto';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 
 @Controller('messages')
-@UseGuards(AuthenticationGuard)
+// @UseGuards(AuthenticationGuard)
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
