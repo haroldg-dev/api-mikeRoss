@@ -1,6 +1,6 @@
 # MIKE ROSS API
 
-- DOCS -> https://github.com/haroldg-dev/api-mikeRoss
+- DOCUMENTATION -> https://github.com/haroldg-dev/cctb-capstone
 
 The `api-mikeRoss` is a backend service built with [NestJS](https://nestjs.com/) and MongoDB. It provides chat and messaging functionalities, including support for GPT-based services.
 
